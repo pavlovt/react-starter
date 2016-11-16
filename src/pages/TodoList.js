@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import TodoActions from '../actions/TodoActions';
-import TodoStore from '../stores/TodoStore';
+// import TodoActions from '../actions/TodoActions';
+// import TodoStore from '../stores/TodoStore';
 
+import z from '../stores/TodoFlushStore';
+
+// let {TodoActions, TodoStore} = z;
+let TodoActions = z.actions;
+let TodoStore = z.store;
+console.log({TodoActions, TodoStore});
 class TodoList extends Component {
   constructor() {
     super()
@@ -41,9 +47,9 @@ class TodoList extends Component {
   render() {
     return (
       <div className="todo-list">
-        TodoList
-        <input name="name" onKeyDown={this.addTodo} />
-        {this.todos()}
+          TodoList
+          <input name="name" onKeyDown={this.addTodo} />
+          {this.todos()}
       </div>
     );
   }
