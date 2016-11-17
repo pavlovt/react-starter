@@ -23,6 +23,4 @@ let methods = {
 
 }
 
-let res = Flush.store(methods);
-console.log(res);
-export default res;
+export default Flush.store(methods);

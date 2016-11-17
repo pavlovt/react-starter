@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-// import TodoActions from '../actions/TodoActions';
-// import TodoStore from '../stores/TodoStore';
+// import actions from '../actions/actions';
+// import store from '../stores/store';
 
-import z from '../stores/TodoFlushStore';
+import Collection from '../stores/TodoFlushStore';
+let {actions, store} = Collection;
 
-// let {TodoActions, TodoStore} = z;
-let TodoActions = z.actions;
-let TodoStore = z.store;
-console.log({TodoActions, TodoStore});
 class TodoList extends Component {
   constructor() {
     super()
     // this.state = {todos: [{name: 'q'}, {name: 'q1'}]};
-    this.state = {todos: TodoStore.getAll()};
+    this.state = {todos: store.getAll()};
   }
 
   todos = () => {
@@ -27,21 +24,21 @@ class TodoList extends Component {
   addTodo = (event) => {
     if (event.keyCode === 13 && !_.isEmpty(event.target.value)) {
       //this.setState({todos: [...this.state.todos, {name: event.target.value}]});
-      TodoActions.create(event.target.value);
+      actions.create(event.target.value);
     }
   }
 
   componentDidMount = () => {
-    TodoStore.addChangeListener(this._onChange);
+    store.addChangeListener(this._onChange);
   }
 
   componentWillUnmount =() => {
-    TodoStore.removeChangeListener(this._onChange);
+    store.removeChangeListener(this._onChange);
   }
 
   _onChange = () => {
-    console.log(TodoStore.getAll());
-    this.setState({todos: TodoStore.getAll()});
+    console.log(store.getAll());
+    this.setState({todos: store.getAll()});
   }
 
   render() {
