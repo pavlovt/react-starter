@@ -4,8 +4,10 @@ import App from './App';
 import About from './pages/About';
 import TodoList from './pages/TodoList';
 import GridTest from './pages/GridTest';
+import 'fixed-data-table/dist/fixed-data-table.css'
+import 'semantic-ui-css/semantic.min.css'
 import './index.css';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 ReactDOM.render(
   (

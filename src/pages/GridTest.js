@@ -1,11 +1,119 @@
+"use strict";
+
 import React, { Component } from 'react';
+import { SSDataGrid } from './../components/SSDataGrid';
+
+const rows = [{
+    username: "asenpetrov",
+    firstName: "Asen",
+    lastName: "Petrov",
+    role: "PM",
+    status: "late for work",
+    timeZone: "timezone"
+}, {
+    username: "valeri@abv.bg",
+    firstName: "valeri",
+    lastName: "Abv",
+    role: "CFO of PMO",
+    status: "on time",
+    timeZone: "Grinouch"
+}, {
+    username: "bailambo",
+    firstName: "bai",
+    lastName: "lando",
+    role: "dzadnik",
+    status: "kakvo iskash we",
+    timeZone: "Athens"
+}, {
+    username: "bailambo",
+    firstName: "bai",
+    lastName: "lando",
+    role: "dzadnik",
+    status: "kakvo iskash we",
+    timeZone: "Athens"
+}, {
+    username: "bailambo",
+    firstName: "bai",
+    lastName: "lando",
+    role: "dzadnik",
+    status: "kakvo iskash we",
+    timeZone: "Athens"
+}, {
+    username: "bailambo",
+    firstName: "bai",
+    lastName: "lando",
+    role: "dzadnik",
+    status: "kakvo iskash we",
+    timeZone: "Athens"
+}, {
+    username: "bailambo",
+    firstName: "bai",
+    lastName: "lando",
+    role: "dfgdzadnik",
+    status: "dfgkakvo iskash we",
+    timeZone: "Athens"
+}, {
+    username: "tailambo",
+    firstName: "hrtbai",
+    lastName: "hrdslando",
+    role: "fsdfdzadnik",
+    status: "kakvo iskash we",
+    timeZone: "Athens"
+}, {
+    username: "tailambo",
+    firstName: "bai",
+    lastName: "lando",
+    role: "dzadnik",
+    status: "kakvo iskash we",
+    timeZone: "Athens"
+}, {
+    username: "gailambo",
+    firstName: "bai",
+    lastName: "lando",
+    role: "dzadnik",
+    status: "kakvo iskash we",
+    timeZone: "Athens"
+}, {
+    username: "tailambo",
+    firstName: "bai",
+    lastName: "asddqlando",
+    role: "dzadnik",
+    status: "kakvo iskash we",
+    timeZone: "Athens"
+}];
 
 export default class GridTest extends Component {
     constructor() {
         super();
     }
 
+    gridConfig = {
+        data: rows,
+        columns: [{
+            title: "Username/Email",
+            field: "username",
+            isSortable: true
+        }, {
+            title: "First Name",
+            field: "firstName"
+        }, {
+            title: "Last Name",
+            field: "lastName"
+        }, {
+            title: "Role",
+            field: "role"
+        }, {
+            title: "Status",
+            field: "status"
+        }, {
+            title: "Time Zone",
+            field: "timeZone",
+        }]
+    };
+
     render() {
-        return (<div>Helloooo</div>);
+        return (<div>
+            <SSDataGrid config={this.gridConfig} />
+        </div>);
     }
 }
