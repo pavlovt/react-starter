@@ -4,6 +4,7 @@ import App from './App';
 import About from './pages/About';
 import TodoList from './pages/TodoList';
 import GridTest from './pages/GridTest';
+import ChartTest from './pages/ChartTest';
 import './index.css';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
@@ -15,6 +16,7 @@ ReactDOM.render(
       <Route path="about" component={About}/>
       <Route path="todo" component={TodoList}/>
       <Route path="grid" component={GridTest}/>
+      <Route path="chart" component={ChartTest}/>
     </Route>
   </Router>
 ),
