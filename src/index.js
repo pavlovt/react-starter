@@ -5,8 +5,10 @@ import About from './pages/About';
 import TodoList from './pages/TodoList';
 import GridTest from './pages/GridTest';
 import ChartTest from './pages/ChartTest';
-import './index.css';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import 'fixed-data-table/dist/fixed-data-table.css'
+import 'semantic-ui-css/semantic.min.css'
+import './index.scss';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 ReactDOM.render(
   (
