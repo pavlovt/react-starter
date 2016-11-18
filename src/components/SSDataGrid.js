@@ -163,14 +163,18 @@ export class SSDataGrid extends Component {
 
     onFilterChange(e, data) {
         let val = data.value;
-
+        let self = this;
         // If the input is empty reset the data
         if (!val) {
             this.setState({sortedDataList: this._dataList});
             return;
+        } else {
+            let filteredData = this.state.sortedDataList.filter((item) => {
+                return item[self.state.currentFilter].indexOf(val) > -1;
+            });
+
+            this.setState({sortedDataList: filteredData});
         }
-
-
     }
 
     render() {
@@ -193,7 +197,7 @@ export class SSDataGrid extends Component {
         return (<div>
             <Input icon='search' placeholder='Search...'
                 action={<Dropdown basic floating options={filterDropdownOptions} defaultValue={filterDropdownOptions[0].value} onChange={this.onFilterDropdownChange.bind(this)} />}
-                iconPosition='left' onChange={this.onFilterChange}/>
+                iconPosition='left' onChange={this.onFilterChange.bind(this)}/>
             <Table
                 width={parseInt(width || dataGridConfig.defaultGridWidth, 10) || dataGridConfig.defaultGridWidth}
                 rowHeight={dataGridConfig.rowHeight}
