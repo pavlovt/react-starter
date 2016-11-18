@@ -4,7 +4,7 @@ import App from './App';
 import About from './pages/About';
 import TodoList from './pages/TodoList';
 import GridTest from './pages/GridTest';
-import './index.css';
+import './index.scss';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
 ReactDOM.render(
