@@ -25,6 +25,10 @@ if (!Array.prototype.getObjectAt) {
     Array.prototype.getObjectAt = function (idx) {
         return this[idx];
     };
+
+    Array.prototype.getSize = function () {
+        return this.length;
+    };
 }
 
 // Cell definitions
@@ -102,7 +106,7 @@ export class SSDataGrid extends Component {
 
         this.state = {
             originalStateData: props.config.data,
-            sortedDataList: this._dataList,
+            sortedDataList: new DataListWrapper(this._defaultSortIndexes, this._dataList),
             colSortDirs: {},
             filterDropdownOptions: [],
             currentFilter: null
@@ -112,9 +116,9 @@ export class SSDataGrid extends Component {
     }
 
     componentWillMount(next) {
-        var options = this.props.config.columns.map((col) => ({text: col.title, value: col.field}));
-        this.setState({filterDropdownOptions: options});
-        this.setState({currentFilter: options[0].value});
+        var options = this.props.config.columns.map((col) => ({ text: col.title, value: col.field }));
+        this.setState({ filterDropdownOptions: options });
+        this.setState({ currentFilter: options[0].value });
     }
 
     getCellTemplate(fieldType) {
@@ -158,23 +162,33 @@ export class SSDataGrid extends Component {
     }
 
     onFilterDropdownChange(e, data) {
-        this.setState({currentFilter: data.value});
+        this.setState({ currentFilter: data.value });
     }
 
     onFilterChange(e, data) {
         let val = data.value;
-        let self = this;
-        // If the input is empty reset the data
-        if (!val) {
-            this.setState({sortedDataList: this._dataList});
-            return;
-        } else {
-            let filteredData = this.state.sortedDataList.filter((item) => {
-                return item[self.state.currentFilter].indexOf(val) > -1;
-            });
 
-            this.setState({sortedDataList: filteredData});
+        // If the input is empty reset the data
+        // if (!val) {
+        //     this.setState({ sortedDataList: this._dataList });
+        //     return;
+        // }
+
+        let size = this._dataList.getSize();
+        let filteredIndexes = [];
+
+        for (let index = 0; index < size; index++) {
+            let rowValue = this._dataList.getObjectAt(index)[this.state.currentFilter];
+
+            if (rowValue.toLowerCase().indexOf(val.toLowerCase()) !== -1) {
+                filteredIndexes.push(index);
+            }
         }
+        debugger
+        let asd = new DataListWrapper(filteredIndexes, this._dataList);
+        this.setState({
+            sortedDataList: asd
+        });
     }
 
     render() {
@@ -192,16 +206,15 @@ export class SSDataGrid extends Component {
 
             return <Column columnKey={column.field} cell={<TextCell data={sortedDataList} col={column.field} />} width={column.width || columnWidth} header={headerTemplate} key={idx} />
         });
-        console.log(this.state.currentFilter)
 
         return (<div>
             <Input icon='search' placeholder='Search...'
                 action={<Dropdown basic floating options={filterDropdownOptions} defaultValue={filterDropdownOptions[0].value} onChange={this.onFilterDropdownChange.bind(this)} />}
-                iconPosition='left' onChange={this.onFilterChange.bind(this)}/>
+                iconPosition='left' onChange={this.onFilterChange.bind(this)} />
             <Table
                 width={parseInt(width || dataGridConfig.defaultGridWidth, 10) || dataGridConfig.defaultGridWidth}
                 rowHeight={dataGridConfig.rowHeight}
-                rowsCount={data.length}
+                rowsCount={sortedDataList.getSize()}
                 maxHeight={dataGridConfig.maxHeight}
                 headerHeight={dataGridConfig.headerHeight}>
 
