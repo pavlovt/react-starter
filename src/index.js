@@ -16,11 +16,11 @@ ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={TodoList} />
-      <Route path="about" component={About}/>
-      <Route path="todo" component={TodoList}/>
-      <Route path="grid" component={GridTest}/>
-      <Route path="chart" component={ChartTest}/>
-      <Route path="validation" component={Validation}/>
+      <Route path="about" component={About} />
+      <Route path="todo" component={TodoList} />
+      <Route path="grid" component={GridTest} />
+      <Route path="chart" component={ChartTest} />
+      <Route path="validation" component={Validation} />
     </Route>
   </Router>
 ),
