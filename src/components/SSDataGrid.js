@@ -109,7 +109,9 @@ export class SSDataGrid extends Component {
             sortedDataList: new DataListWrapper(this._defaultSortIndexes, this._dataList),
             colSortDirs: {},
             filterDropdownOptions: [],
-            currentFilter: null
+            currentFilter: null,
+            currentFilterValue: null,
+            currentSortingCol: null
         };
 
         this._onSortChange = this._onSortChange.bind(this);
@@ -133,9 +135,24 @@ export class SSDataGrid extends Component {
     }
 
     _onSortChange(columnKey, sortDir) {
-        let sortIndexes = this._defaultSortIndexes.slice();
+        // first filter the collection
+        let size = this._dataList.getSize();
+        let filteredIndexes = [];
 
-        sortIndexes.sort((indexA, indexB) => {
+        if (this.state.currentFilterValue) {
+            for (let index = 0; index < size; index++) {
+                let rowValue = this._dataList.getObjectAt(index)[this.state.currentFilter];
+
+                if (rowValue.toLowerCase().indexOf(this.state.currentFilterValue.toLowerCase()) !== -1) {
+                    filteredIndexes.push(index);
+                }
+            }
+        } else {
+            filteredIndexes = this._defaultSortIndexes.slice();
+        }
+
+        // sort the filtered collection
+        filteredIndexes.sort((indexA, indexB) => {
             let valueA = this._dataList.getObjectAt(indexA)[columnKey];
             let valueB = this._dataList.getObjectAt(indexB)[columnKey];
             let sortVal = 0;
@@ -154,11 +171,13 @@ export class SSDataGrid extends Component {
         });
 
         this.setState({
-            sortedDataList: new DataListWrapper(sortIndexes, this._dataList),
+            sortedDataList: new DataListWrapper(filteredIndexes, this._dataList),
             colSortDirs: {
                 [columnKey]: sortDir
             },
         });
+
+        this.setState({ currentSortingCol: columnKey });
     }
 
     onFilterDropdownChange(e, data) {
@@ -166,28 +185,9 @@ export class SSDataGrid extends Component {
     }
 
     onFilterChange(e, data) {
-        let val = data.value;
-
-        // If the input is empty reset the data
-        // if (!val) {
-        //     this.setState({ sortedDataList: this._dataList });
-        //     return;
-        // }
-
-        let size = this._dataList.getSize();
-        let filteredIndexes = [];
-
-        for (let index = 0; index < size; index++) {
-            let rowValue = this._dataList.getObjectAt(index)[this.state.currentFilter];
-
-            if (rowValue.toLowerCase().indexOf(val.toLowerCase()) !== -1) {
-                filteredIndexes.push(index);
-            }
-        }
-        debugger
-        let asd = new DataListWrapper(filteredIndexes, this._dataList);
-        this.setState({
-            sortedDataList: asd
+        let { currentSortingCol, colSortDirs } = this.state;
+        this.setState({ currentFilterValue: data.value }, () => {
+            this._onSortChange(currentSortingCol, colSortDirs[currentSortingCol]);
         });
     }
 

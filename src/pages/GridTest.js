@@ -95,7 +95,8 @@ export default class GridTest extends Component {
             isSortable: true
         }, {
             title: "First Name",
-            field: "firstName"
+            field: "firstName",
+            isSortable: true
         }, {
             title: "Last Name",
             field: "lastName"
