@@ -6,6 +6,8 @@ import TodoList from './pages/TodoList';
 import GridTest from './pages/GridTest';
 import ChartTest from './pages/ChartTest';
 import Validation from './pages/Validation';
+import Tenants from './pages/Tenants';
+import Overview from './pages/Overview';
 import 'semantic-ui-css/semantic.min.css'
 import './index.scss';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
@@ -15,11 +17,13 @@ ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={TodoList} />
-      <Route path="about" component={About} />
-      <Route path="todo" component={TodoList} />
-      <Route path="grid" component={GridTest} />
-      <Route path="chart" component={ChartTest} />
-      <Route path="validation" component={Validation} />
+      <Route path="about" component={About}/>
+      <Route path="todo" component={TodoList}/>
+      <Route path="grid" component={GridTest}/>
+      <Route path="chart" component={ChartTest}/>
+      <Route path="validation" component={Validation}/>
+      <Route path="tenants" component={Tenants}/>
+      <Route path="overview" component={Overview}/>
     </Route>
   </Router>
 ),
