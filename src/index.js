@@ -6,6 +6,8 @@ import TodoList from './pages/TodoList';
 import GridTest from './pages/GridTest';
 import ChartTest from './pages/ChartTest';
 import Validation from './pages/Validation';
+import Tenants from './pages/Tenants';
+import Overview from './pages/Overview';
 import 'fixed-data-table/dist/fixed-data-table.css'
 import 'semantic-ui-css/semantic.min.css'
 import './index.scss';
@@ -21,6 +23,8 @@ ReactDOM.render(
       <Route path="grid" component={GridTest}/>
       <Route path="chart" component={ChartTest}/>
       <Route path="validation" component={Validation}/>
+      <Route path="tenants" component={Tenants}/>
+      <Route path="overview" component={Overview}/>
     </Route>
   </Router>
 ),
