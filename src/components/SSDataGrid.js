@@ -4,7 +4,6 @@ import { Input, Dropdown, Button } from 'semantic-ui-react';
 import ReactPaginate from 'react-paginate';
 let json2csv = require('json2csv');
 import 'fixed-data-table/dist/fixed-data-table.css';
-import {pagination} from 'bootstrap-css';
 import _ from 'lodash';
 
 const dataGridConfig = {
