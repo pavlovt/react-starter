@@ -1,7 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { Table, Column, Cell } from 'fixed-data-table';
 import { Input, Dropdown, Button } from 'semantic-ui-react';
+import ReactPaginate from 'react-paginate';
 let json2csv = require('json2csv');
+import 'fixed-data-table/dist/fixed-data-table.css';
+import {pagination} from 'bootstrap-css';
+import _ from 'lodash';
 
 const dataGridConfig = {
     rowHeight: 40,
@@ -105,7 +109,7 @@ export class SSDataGrid extends Component {
     constructor(props) {
         super(props);
 
-        this._dataList = props.config.data.slice();
+        this._dataList = _.sortBy(props.config.data, props.config.sorting);
         this._defaultSortIndexes = [];
         let size = this._dataList.length;
 
@@ -120,7 +124,8 @@ export class SSDataGrid extends Component {
             filterDropdownOptions: [],
             currentFilter: null,
             currentFilterValue: null,
-            currentSortingCol: null
+            currentSortingCol: null,
+            pageNum: 18
         };
 
         this._onSortChange = this._onSortChange.bind(this);
@@ -212,20 +217,25 @@ export class SSDataGrid extends Component {
         a.click();
     }
 
+    handlePageClick(data) {
+        let selected = data.selected;
+        debugger;
+    }
+
     render() {
         let {columns, width, data} = this.props.config;
         let {colSortDirs, sortedDataList, filterDropdownOptions} = this.state;
 
         let cols = columns.map((column, idx) => {
             let columnWidth = column.width || Math.floor((width || dataGridConfig.defaultGridWidth) / columns.length);
-            let cellTemplate = this.getCellTemplate(column.type);
+            let CellTemplate = this.getCellTemplate(column.type);
             let headerTemplate = column.isSortable === true ? (<SortHeaderCell
                 onSortChange={this._onSortChange}
                 sortDir={colSortDirs[column.field]}>
                 {column.title}
             </SortHeaderCell>) : (<Cell>{column.title}</Cell>);
 
-            return <Column columnKey={column.field} cell={<TextCell data={sortedDataList} col={column.field} />} width={column.width || columnWidth} header={headerTemplate} key={idx} />
+            return <Column columnKey={column.field} cell={<CellTemplate data={sortedDataList} col={column.field} />} width={column.width || columnWidth} header={headerTemplate} key={idx} />
         });
 
         return (<div>
@@ -241,12 +251,26 @@ export class SSDataGrid extends Component {
                     width={parseInt(width || dataGridConfig.defaultGridWidth, 10) || dataGridConfig.defaultGridWidth}
                     rowHeight={dataGridConfig.rowHeight}
                     rowsCount={sortedDataList.getSize()}
+                    rowHeight={200}
                     maxHeight={dataGridConfig.maxHeight}
                     headerHeight={dataGridConfig.headerHeight}>
 
                     {cols}
 
                 </Table>
+            </div>
+            <div style={styles.common.floatLeft}>
+                <ReactPaginate previousLabel={"previous"}
+                    nextLabel={"next"}
+                    breakLabel={<a href="">...</a>}
+                    breakClassName={"break-me"}
+                    pageNum={this.state.pageNum}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    clickCallback={this.handlePageClick}
+                    containerClassName={"pagination"}
+                    subContainerClassName={"pages pagination"}
+                    activeClassName={"active"} />
             </div>
         </div>);
     }

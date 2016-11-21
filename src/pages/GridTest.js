@@ -26,28 +26,28 @@ const rows = [{
     timeZone: "Athens"
 }, {
     username: "bailambo",
-    firstName: "bai",
+    firstName: "dbai",
     lastName: "lando",
     role: "dzadnik",
     status: "kakvo iskash we",
     timeZone: "Athens"
 }, {
     username: "bailambo",
-    firstName: "bai",
+    firstName: "cbai",
     lastName: "lando",
     role: "dzadnik",
     status: "kakvo iskash we",
     timeZone: "Athens"
 }, {
     username: "bailambo",
-    firstName: "bai",
+    firstName: "bbai",
     lastName: "lando",
     role: "dzadnik",
     status: "kakvo iskash we",
     timeZone: "Athens"
 }, {
     username: "bailambo",
-    firstName: "bai",
+    firstName: "abai",
     lastName: "lando",
     role: "dfgdzadnik",
     status: "dfgkakvo iskash we",
@@ -109,7 +109,8 @@ export default class GridTest extends Component {
         }, {
             title: "Time Zone",
             field: "timeZone",
-        }]
+        }],
+        sorting: ['username', 'firstName']
     };
 
     render() {
