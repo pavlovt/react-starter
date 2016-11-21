@@ -42,7 +42,6 @@
     "recursive-readdir": "2.1.0",
     "rimraf": "2.5.4",
     "sass-loader": "^4.0.2",
-    "semantic-ui": "^2.2.6",
     "strip-ansi": "3.0.1",
     "style-loader": "0.13.1",
     "url-loader": "0.5.7",
@@ -53,6 +52,8 @@
   },
   "dependencies": {
     "bluebird": "^3.4.6",
+    "bootstrap": "^3.3.7",
+    "bootstrap-loader": "^2.0.0-beta.15",
     "chart.js": "^2.4.0",
     "fixed-data-table": "^0.6.3",
     "flux": "^3.1.0",
