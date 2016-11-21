@@ -7,8 +7,9 @@ import GridTest from './pages/GridTest';
 import ChartTest from './pages/ChartTest';
 import Validation from './pages/Validation';
 import Validation1 from './pages/Validation1';
-import 'fixed-data-table/dist/fixed-data-table.css'
 import 'bootstrap/dist/css/bootstrap.css';
+import Tenants from './pages/Tenants';
+import Overview from './pages/Overview';
 import './index.scss';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
@@ -23,6 +24,8 @@ ReactDOM.render(
       <Route path="chart" component={ChartTest}/>
       <Route path="validation" component={Validation}/>
       <Route path="validation1" component={Validation1}/>
+      <Route path="tenants" component={Tenants}/>
+      <Route path="overview" component={Overview}/>
     </Route>
   </Router>
 ),
