@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Table, Column, Cell } from 'fixed-data-table';
-import { Input, Dropdown } from 'semantic-ui-react';
+import { Input, Dropdown, Button } from 'semantic-ui-react';
+let json2csv = require('json2csv');
 
 const dataGridConfig = {
     rowHeight: 40,
@@ -18,6 +19,14 @@ const SortTypes = {
 const styles = {
     dropdown: {
         width: '150px'
+    },
+    common: {
+        floatLeft: {
+            float: 'left'
+        },
+        clearfix: {
+            clear: 'both'
+        }
     }
 };
 
@@ -191,6 +200,18 @@ export class SSDataGrid extends Component {
         });
     }
 
+    exportToCSV() {
+        let dataCSV = json2csv({ fields: Object.keys(this.state.sortedDataList._data[0]), data: this.state.sortedDataList._data });
+        let a = document.createElement('a');
+
+        a.href = 'data:attachment/csv,' + encodeURIComponent(dataCSV);
+        a.target = '_blank';
+        a.download = `report-${Date.now()}.csv`;
+
+        document.body.appendChild(a);
+        a.click();
+    }
+
     render() {
         let {columns, width, data} = this.props.config;
         let {colSortDirs, sortedDataList, filterDropdownOptions} = this.state;
@@ -208,19 +229,25 @@ export class SSDataGrid extends Component {
         });
 
         return (<div>
-            <Input icon='search' placeholder='Search...'
-                action={<Dropdown basic floating options={filterDropdownOptions} defaultValue={filterDropdownOptions[0].value} onChange={this.onFilterDropdownChange.bind(this)} />}
-                iconPosition='left' onChange={this.onFilterChange.bind(this)} />
-            <Table
-                width={parseInt(width || dataGridConfig.defaultGridWidth, 10) || dataGridConfig.defaultGridWidth}
-                rowHeight={dataGridConfig.rowHeight}
-                rowsCount={sortedDataList.getSize()}
-                maxHeight={dataGridConfig.maxHeight}
-                headerHeight={dataGridConfig.headerHeight}>
+            <div style={styles.common.floatLeft}>
+                <Input icon='search' placeholder='Search...'
+                    action={<Dropdown basic floating options={filterDropdownOptions} defaultValue={filterDropdownOptions[0].value} onChange={this.onFilterDropdownChange.bind(this)} />}
+                    iconPosition='left' onChange={this.onFilterChange.bind(this)} />
+                <Button primary disabled>Print</Button>
+                <Button primary onClick={this.exportToCSV.bind(this)}>Export</Button>
+            </div>
+            <div style={styles.common.clearfix}>
+                <Table
+                    width={parseInt(width || dataGridConfig.defaultGridWidth, 10) || dataGridConfig.defaultGridWidth}
+                    rowHeight={dataGridConfig.rowHeight}
+                    rowsCount={sortedDataList.getSize()}
+                    maxHeight={dataGridConfig.maxHeight}
+                    headerHeight={dataGridConfig.headerHeight}>
 
-                {cols}
+                    {cols}
 
-            </Table>
+                </Table>
+            </div>
         </div>);
     }
 }
