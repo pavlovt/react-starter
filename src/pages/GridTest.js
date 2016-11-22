@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { SSDataGrid } from './../components/SSDataGrid';
+import { SSTable } from './../components/SSTable';
 
 const rows = [{
     username: "asenpetrov",
@@ -115,7 +116,7 @@ export default class GridTest extends Component {
 
     render() {
         return (<div>
-            <SSDataGrid config={this.gridConfig} />
+            <SSTable config={this.gridConfig}></SSTable>
         </div>);
     }
 }

@@ -4,7 +4,7 @@ import { Input, Dropdown, Button } from 'semantic-ui-react';
 import ReactPaginate from 'react-paginate';
 let json2csv = require('json2csv');
 import 'fixed-data-table/dist/fixed-data-table.css';
-import {pagination} from 'bootstrap-css';
+import { pagination } from 'bootstrap-css';
 import _ from 'lodash';
 
 const dataGridConfig = {
@@ -226,16 +226,28 @@ export class SSDataGrid extends Component {
         let {columns, width, data} = this.props.config;
         let {colSortDirs, sortedDataList, filterDropdownOptions} = this.state;
 
-        let cols = columns.map((column, idx) => {
-            let columnWidth = column.width || Math.floor((width || dataGridConfig.defaultGridWidth) / columns.length);
-            let CellTemplate = this.getCellTemplate(column.type);
-            let headerTemplate = column.isSortable === true ? (<SortHeaderCell
-                onSortChange={this._onSortChange}
-                sortDir={colSortDirs[column.field]}>
-                {column.title}
-            </SortHeaderCell>) : (<Cell>{column.title}</Cell>);
+        // let cols = columns.map((column, idx) => {
+        //     let columnWidth = column.width || Math.floor((width || dataGridConfig.defaultGridWidth) / columns.length);
+        //     let CellTemplate = this.getCellTemplate(column.type);
+        //     let headerTemplate = column.isSortable === true ? (<SortHeaderCell
+        //         onSortChange={this._onSortChange}
+        //         sortDir={colSortDirs[column.field]}>
+        //         {column.title}
+        //     </SortHeaderCell>) : (<Cell>{column.title}</Cell>);
 
-            return <Column columnKey={column.field} cell={<CellTemplate data={sortedDataList} col={column.field} />} width={column.width || columnWidth} header={headerTemplate} key={idx} />
+        //     return <Column columnKey={column.field} cell={<CellTemplate data={sortedDataList} col={column.field} />} width={column.width || columnWidth} header={headerTemplate} key={idx} />
+        // });
+
+        let headerCells = columns.map((headerItem, idx) => {
+            return <th className="text-center" key={idx}>{headerItem.title}</th>;
+        });
+
+        let rows = sortedDataList._data.map((row, i) => {
+            let cells = columns.map((fieldDef, idx) => {
+                return <td key={idx}>{row[fieldDef.field]}</td>;
+            });
+
+            return <tr key={i}>{cells}</tr>;
         });
 
         return (<div>
@@ -247,17 +259,16 @@ export class SSDataGrid extends Component {
                 <Button primary onClick={this.exportToCSV.bind(this)}>Export</Button>
             </div>
             <div style={styles.common.clearfix}>
-                <Table
-                    width={parseInt(width || dataGridConfig.defaultGridWidth, 10) || dataGridConfig.defaultGridWidth}
-                    rowHeight={dataGridConfig.rowHeight}
-                    rowsCount={sortedDataList.getSize()}
-                    rowHeight={200}
-                    maxHeight={dataGridConfig.maxHeight}
-                    headerHeight={dataGridConfig.headerHeight}>
-
-                    {cols}
-
-                </Table>
+                <table className="table table-hover">
+                    <thead>
+                        <tr>
+                            {headerCells}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {rows}
+                    </tbody>
+                </table>
             </div>
             <div style={styles.common.floatLeft}>
                 <ReactPaginate previousLabel={"previous"}
