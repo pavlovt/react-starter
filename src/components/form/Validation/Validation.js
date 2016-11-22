@@ -18,7 +18,7 @@ class Validation extends Component {
 }
 
 Validation.protoTypes = {
-    inputName: React.PropTypes.string.isRequired
+    data: React.PropTypes.array.isRequired
 }
 
 export default Validation;
