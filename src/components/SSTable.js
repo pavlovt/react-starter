@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { table, inputGroups } from 'bootstrap-css';
 import ReactPaginate from 'react-paginate';
+import _ from 'lodash';
 
 const SortTypes = {
     ASC: 'ASC',
@@ -24,6 +25,16 @@ const styles = {
         paddingLeft: '0px',
         paddingRight: '0px',
         border: 'none'
+    },
+    table: {
+        minHeight: '400px'
+    },
+    dataRow: {
+        height: '40px'
+    },
+    rowContent: {
+        float: 'left',
+        marginTop: '20px'
     }
 };
 
@@ -82,8 +93,10 @@ export class SSTable extends Component {
             currentFilterType: null,
             currentFilterValue: null,
             currentSortingCol: null,
-            pageCount: 5,
-            perPage: 3
+            pageCount: 0,
+            perPage: 0,
+            currentPage: 0,
+            selectedRow: null
         };
     }
 
@@ -91,6 +104,11 @@ export class SSTable extends Component {
         let options = this.props.config.columns.map((col) => ({ text: col.title, value: col.field }));
         this.setState({ filterDropdownOptions: options });
         this.setState({ currentFilterType: options[0].value });
+
+        // setting up pagination
+        this.setState({ perPage: 3 }, (data) => {
+            this.setState({ pageCount: Math.ceil(this.state.viewData.length / this.state.perPage) });
+        });
     }
 
     componentDidMount() {
@@ -137,27 +155,49 @@ export class SSTable extends Component {
     onFilterValueChange(e) {
         let filterValue = e.target.value;
         this.setState({ currentFilterValue: filterValue });
-        let {currentSortingCol, colSortDirs, originalData, viewData, currentFilterType} = this.state;
+        let {currentSortingCol, colSortDirs, originalData, viewData, currentFilterType, perPage} = this.state;
 
         if (!filterValue) {
-            this.setState({ viewData: originalData.slice() }, () => {
-                this.onSortChange(currentSortingCol, colSortDirs[currentSortingCol]);
+            this.setState({ viewData: originalData.slice(), pageCount: Math.ceil(viewData.length / perPage) }, () => {
+                if (currentSortingCol) {
+                    this.onSortChange(currentSortingCol, colSortDirs[currentSortingCol]);
+                }
             });
         } else {
             let filteredData = originalData.filter((item) => item[currentFilterType].toLowerCase().indexOf(filterValue.toLowerCase()) > -1);
 
-            this.setState({ viewData: filteredData }, () => {
-                this.onSortChange(currentSortingCol, colSortDirs[currentSortingCol]);
+            this.setState({ viewData: filteredData, pageCount: Math.ceil(filteredData.length / perPage) }, () => {
+                if (currentSortingCol) {
+                    this.onSortChange(currentSortingCol, colSortDirs[currentSortingCol]);
+                }
             });
         }
     }
 
     handlePageClick(data) {
         let selected = data.selected;
+
+        this.setState({ currentPage: selected });
+    }
+
+    handleRowSelect(pageIdx) {
+        debugger
+        if (pageIdx !== this.state.selectedRow || this.state.selectedRow === null) {
+            this.setState({ selectedRow: pageIdx });
+        } else {
+            this.setState({ selectedRow: null });
+        }
+    }
+
+    getPaginatedItems(items, page = 1, perPage) {
+        let offset = page * perPage;
+
+        return _.take(_.drop(items, offset), perPage);
     }
 
     render() {
-        let {columnDefs, viewData, colSortDirs, filterDropdownOptions} = this.state;
+        let {columnDefs, viewData, colSortDirs, filterDropdownOptions, perPage, currentPage, selectedRow} = this.state;
+        let {ExpandedRowTmpl} = this.props.config;
 
         let headerCells = columnDefs.map((headerItem, idx) => {
             return headerItem.isSortable ? <SortHeaderCell
@@ -168,12 +208,21 @@ export class SSTable extends Component {
             </SortHeaderCell> : <th key={idx}>{headerItem.title}</th>;
         });
 
-        let rows = viewData.map((row, i) => {
+        let rows = this.getPaginatedItems(viewData, currentPage, perPage).map((row, i) => {
             let cells = columnDefs.map((fieldDef, idx) => {
-                return <td key={idx}>{row[fieldDef.field]}</td>;
+                return <div style={{ display: 'inline-block', width: 100 / columnDefs.length + '%' }} key={idx}>
+                    {row[fieldDef.field]}
+                </div>;
             });
 
-            return <tr key={i}>{cells}</tr>;
+            return <tr onClick={this.handleRowSelect.bind(this, i)} key={i}>
+                <td colSpan={columnDefs.length}>
+                    {cells}
+                    <div style={Object.assign({}, styles.rowContent, {display: selectedRow === i ? 'block' : 'none'})}>
+                        <ExpandedRowTmpl content={row} />
+                    </div>
+                </td>
+            </tr>;
         });
 
         let filterOptions = filterDropdownOptions.map((option, i) => <option value={option.value} key={i}>{option.text}</option>);

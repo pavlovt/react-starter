@@ -83,6 +83,12 @@ const rows = [{
     timeZone: "Athens"
 }];
 
+class RowSampleTemplate extends Component {
+    render() {
+        return <div>zdraveite az sum templeita<br/><br/>{this.props.content.toString()}</div>
+    }
+}
+
 export default class GridTest extends Component {
     constructor() {
         super();
@@ -111,7 +117,8 @@ export default class GridTest extends Component {
             title: "Time Zone",
             field: "timeZone",
         }],
-        sorting: ['username', 'firstName']
+        sorting: ['username', 'firstName'],
+        ExpandedRowTmpl: RowSampleTemplate
     };
 
     render() {
