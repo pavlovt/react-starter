@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { table, inputGroups } from 'bootstrap-css';
+import ReactPaginate from 'react-paginate';
 
 const SortTypes = {
     ASC: 'ASC',
@@ -79,7 +80,10 @@ export class SSTable extends Component {
             colSortDirs: {},
             filterDropdownOptions: [],
             currentFilterType: null,
-            currentSortingCol: null
+            currentFilterValue: null,
+            currentSortingCol: null,
+            pageCount: 5,
+            perPage: 3
         };
     }
 
@@ -123,11 +127,16 @@ export class SSTable extends Component {
     }
 
     onFilterTypeChange(e) {
-        this.setState({ currentFilterType: e.target.value });
+        let {currentSortingCol, colSortDirs, currentFilterValue} = this.state;
+
+        this.setState({ currentFilterType: e.target.value }, () => {
+            this.onFilterValueChange({ target: { value: currentFilterValue } });
+        });
     }
 
     onFilterValueChange(e) {
         let filterValue = e.target.value;
+        this.setState({ currentFilterValue: filterValue });
         let {currentSortingCol, colSortDirs, originalData, viewData, currentFilterType} = this.state;
 
         if (!filterValue) {
@@ -135,10 +144,16 @@ export class SSTable extends Component {
                 this.onSortChange(currentSortingCol, colSortDirs[currentSortingCol]);
             });
         } else {
-            let filteredData = viewData.filter((item) => item[currentFilterType].toLowerCase().indexOf(filterValue.toLowerCase()) > -1);
+            let filteredData = originalData.filter((item) => item[currentFilterType].toLowerCase().indexOf(filterValue.toLowerCase()) > -1);
 
-            this.setState({viewData: filteredData});
+            this.setState({ viewData: filteredData }, () => {
+                this.onSortChange(currentSortingCol, colSortDirs[currentSortingCol]);
+            });
         }
+    }
+
+    handlePageClick(data) {
+        let selected = data.selected;
     }
 
     render() {
@@ -176,6 +191,19 @@ export class SSTable extends Component {
                     <thead><tr>{headerCells}</tr></thead>
                     <tbody>{rows}</tbody>
                 </table>
+            </div>
+            <div style={styles.common.floatLeft}>
+                <ReactPaginate previousLabel={"previous"}
+                    nextLabel={"next"}
+                    breakLabel={<a href="">...</a>}
+                    breakClassName={"break-me"}
+                    pageNum={this.state.pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    clickCallback={this.handlePageClick.bind(this)}
+                    containerClassName={"pagination"}
+                    subContainerClassName={"pages pagination"}
+                    activeClassName={"active"} />
             </div>
         </div>);
     }
