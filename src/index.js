@@ -11,11 +11,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './assets/fonts/ek-mukta.regular.ttf';
 import Tenants from './pages/Tenants';
 import Overview from './pages/Overview';
-<<<<<<< HEAD
 import TestBarChart from './pages/TestBarChart';
-=======
 import Login from './pages/login/Login';
->>>>>>> 86f632a74bbcf05f9d8037d4e6e992b6dce59467
 import './index.scss';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
@@ -32,12 +29,8 @@ ReactDOM.render(
       <Route path="validation1" component={Validation1}/>
       <Route path="tenants" component={Tenants}/>
       <Route path="overview" component={Overview}/>
-<<<<<<< HEAD
       <Route path="testBarChart" component={TestBarChart}/>
-
-=======
       <Route path="login" component={Login}/>
->>>>>>> 86f632a74bbcf05f9d8037d4e6e992b6dce59467
     </Route>
   </Router>
 ),
