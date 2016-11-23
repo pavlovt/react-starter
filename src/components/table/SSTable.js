@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { table, inputGroups } from 'bootstrap-css';
+// import { table, inputGroups } from 'bootstrap-css';
 import ReactPaginate from 'react-paginate';
 import _ from 'lodash';
 
@@ -180,10 +180,8 @@ export class SSTable extends Component {
         });
     }
 
-    handlePageClick(data) {
-        let selected = parseInt(data.selected, 10);
-
-        this.setState({ currentPage: selected });
+    handlePageClick(selected) {
+        this.setState({ currentPage: parseInt(selected, 10) - 1 });
     }
 
     handleRowSelect(pageIdx) {
@@ -201,7 +199,7 @@ export class SSTable extends Component {
     }
 
     render() {
-        let {columnDefs, viewData, colSortDirs, filterDropdownOptions, perPage, currentPage, selectedRow} = this.state;
+        let {columnDefs, viewData, colSortDirs, filterDropdownOptions, perPage, currentPage, selectedRow, pageCount} = this.state;
         let {ExpandedRowTmpl} = this.props.config;
 
         let headerCells = columnDefs.map((headerItem, idx) => {
@@ -248,7 +246,7 @@ export class SSTable extends Component {
         let pageHighRange = parseInt(currentPage * perPage + perPage, 10);
 
         return (<div className="wrapper-table">
-            <div className="input-group">
+            <div className="input-group" style={{display: 'none'}}>
                 <input type="text" className="form-control" onChange={this.onFilterValueChange.bind(this)} />
                 <span className="input-group-addon" style={styles.glueSpan}></span>
                 <select className="form-control" onChange={this.onFilterTypeChange.bind(this)}>
@@ -263,18 +261,7 @@ export class SSTable extends Component {
             </div>
             <div className="contaner-pagination">
                 <div className="pagination">
-                    <ReactPaginate previousLabel={"previous"}
-                        nextLabel={"next"}
-                        breakLabel={<a href="">...</a>}
-                        breakClassName={"break-me"}
-                        pageNum={this.state.pageCount}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        clickCallback={this.handlePageClick.bind(this)}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"} />
-                        <Paginator max={10} onChange={this.handlePageClick.bind(this)} />
+                        <Paginator max={pageCount} maxVisible={pageCount} onChange={this.handlePageClick.bind(this)} />
                 </div>
                 <div className="contaner-pagination-info">
                     <select className="form-control" onChange={this.onPagePerChange.bind(this)}>

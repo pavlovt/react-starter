@@ -1,4 +1,5 @@
 .wrapper-table {
+    $battleshipGray: #6f7983;
     .ml5 {
         margin-left: 5px;
     }
@@ -7,13 +8,17 @@
         min-height: 240px;
         .table {
             .table-header>tr div {
-                color: #C8C8C8;
+                color: $battleshipGray;
                 padding: 10px 0px;
                 a {
                     text-decoration: none;
                     color: inherit;
                     cursor: pointer;
                 }
+            }
+
+            tbody > tr:first-child td {
+                border-top: 2px solid $battleshipGray;
             }
         }
     }
@@ -25,14 +30,30 @@
         }
         .pagination {
             margin: 0;
+            margin-left: 10px;
+
+            ul.pagination li {
+                &.active {
+                    a {
+                        background: #fff;
+                        color: #1eabd9;
+                    }
+                }
+                a {
+                    border: none;
+                    color: $battleshipGray;
+                    padding-left: 6px;
+                    padding-right: 6px;
+                }
+            }
         }
         .contaner-pagination-info {
             $height: 34px;
-            width: 300px;
+            width: 240px;
             float: right;
             select {
                 display: block;
-                width: 70px;
+                width: 60px;
                 height: $height;
                 float: left;
             }

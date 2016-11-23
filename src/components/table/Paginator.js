@@ -38,6 +38,12 @@ const Paginator = React.createClass({
             this.goTo(this.state.currentPage - 1);
         }
     },
+    onClickFirst: function() {
+        this.goTo(1);
+    },
+    onClickLast: function() {
+        this.goTo(this.props.max);
+    },
     render: function() {
         var className = this.props.className || '',
             p = this.props,
@@ -58,8 +64,14 @@ const Paginator = React.createClass({
             <nav>
                 <ul className={'pagination ' + className}>
                     <li className={s.currentPage === 1 ? 'disabled' : ''}>
+                        <a href="#" onClick={this.onClickFirst}>
+                            <span aria-hidden="true" className="glyphicon glyphicon-step-backward"></span>
+                            <span className="sr-only">First</span>
+                        </a>
+                    </li>
+                    <li className={s.currentPage === 1 ? 'disabled' : ''}>
                         <a href="#" onClick={this.onClickPrev}>
-                            <span aria-hidden="true">&laquo;</span>
+                            <span aria-hidden="true" className="glyphicon glyphicon-triangle-left"></span>
                             <span className="sr-only">Prev</span>
                         </a>
                     </li>
@@ -74,8 +86,14 @@ const Paginator = React.createClass({
                     }, this)}
                     <li className={s.currentPage === p.max ? 'disabled' : ''}>
                         <a href="#" onClick={this.onClickNext}>
-                            <span aria-hidden="true">&raquo;</span>
+                            <span aria-hidden="true" className="glyphicon glyphicon-triangle-right"></span>
                             <span className="sr-only">Next</span>
+                        </a>
+                    </li>
+                    <li className={s.currentPage === p.max ? 'disabled' : ''}>
+                        <a href="#" onClick={this.onClickLast}>
+                            <span aria-hidden="true" className="glyphicon glyphicon-step-forward"></span>
+                            <span className="sr-only">Last</span>
                         </a>
                     </li>
                 </ul>
