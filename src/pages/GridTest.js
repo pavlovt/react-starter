@@ -1,8 +1,7 @@
 "use strict";
 
 import React, { Component } from 'react';
-import { SSDataGrid } from './../components/SSDataGrid';
-import { SSTable } from './../components/SSTable';
+import { SSTable } from './../components/table/SSTable';
 
 const rows = [{
     username: "asenpetrov",
@@ -99,7 +98,10 @@ export default class GridTest extends Component {
         columns: [{
             title: "Username/Email",
             field: "username",
-            isSortable: true
+            isSortable: true,
+            template: function(rowData) {
+                return <div>{rowData.title}</div>
+            }
         }, {
             title: "First Name",
             field: "firstName",

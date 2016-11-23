@@ -1,0 +1,42 @@
+.wrapper-table {
+    padding: 15px;
+    .contaner-table {
+        min-height: 240px;
+        .table {
+            .table-header>tr div {
+                color: #C8C8C8;
+                padding: 10px 0px;
+                a {
+                    text-decoration: none;
+                    color: inherit;
+                }
+            }
+        }
+    }
+    .contaner-pagination {
+        .pagination,
+        .contaner-pagination-info {
+            float: left;
+            vertical-align: top;
+        }
+        .pagination {
+            margin: 0;
+        }
+        .contaner-pagination-info {
+            $height: 34px;
+            width: 300px;
+            float: right;
+            select {
+                display: block;
+                width: 70px;
+                height: $height;
+                float: left;
+            }
+            div {
+                float: left;
+                line-height: $height;
+                padding-left: 20px;
+            }
+        }
+    }
+}

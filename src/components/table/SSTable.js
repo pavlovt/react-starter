@@ -3,6 +3,8 @@ import { table, inputGroups } from 'bootstrap-css';
 import ReactPaginate from 'react-paginate';
 import _ from 'lodash';
 
+import './ss-table.scss';
+
 const SortTypes = {
     ASC: 'ASC',
     DESC: 'DESC',
@@ -11,14 +13,6 @@ const SortTypes = {
 const styles = {
     dropdown: {
         width: '150px'
-    },
-    common: {
-        floatLeft: {
-            float: 'left'
-        },
-        clearfix: {
-            clear: 'both'
-        }
     },
     glueSpan: {
         width: '0px',
@@ -35,6 +29,9 @@ const styles = {
     rowContent: {
         float: 'left',
         marginTop: '20px'
+    },
+    dataInfo: {
+        width: '200px'
     }
 };
 
@@ -46,14 +43,14 @@ class SortHeaderCell extends React.Component {
     }
 
     render() {
-        let {sortDir, children, ...props} = this.props;
+        let {sortDir, children, style, ...props} = this.props;
 
         return (
-            <th>
+            <div style={style}>
                 <a onClick={this._onSortChange}>
                     {children} {sortDir ? (sortDir === SortTypes.DESC ? '↓' : '↑') : ''}
                 </a>
-            </th>
+            </div>
         );
     }
 
@@ -62,7 +59,6 @@ class SortHeaderCell extends React.Component {
     }
 
     _onSortChange(e) {
-        debugger
         e.preventDefault();
 
         if (this.props.onSortChange) {
@@ -80,13 +76,13 @@ export class SSTable extends Component {
     constructor(props) {
         super(props);
 
-        let { data, columns } = props.config;
+        let { data, columns, sorting } = props.config;
 
         this.state = {
             // used to return the grid in it`s base state (without any filtering and ordering)
             originalData: data.slice(),
             // all sorting and filtering is done over this collection
-            viewData: data.slice(),
+            viewData: _.sortBy(data.slice(), sorting || []),
             columnDefs: columns,
             colSortDirs: {},
             filterDropdownOptions: [],
@@ -106,7 +102,7 @@ export class SSTable extends Component {
         this.setState({ currentFilterType: options[0].value });
 
         // setting up pagination
-        this.setState({ perPage: 3 }, (data) => {
+        this.setState({ perPage: 5 }, (data) => {
             this.setState({ pageCount: Math.ceil(this.state.viewData.length / this.state.perPage) });
         });
     }
@@ -174,14 +170,19 @@ export class SSTable extends Component {
         }
     }
 
+    onPagePerChange(e) {
+        this.setState({ perPage: parseInt(e.target.value, 10) }, () => {
+            this.setState({ pageCount: Math.ceil(this.state.viewData.length / this.state.perPage) });
+        });
+    }
+
     handlePageClick(data) {
-        let selected = data.selected;
+        let selected = parseInt(data.selected, 10);
 
         this.setState({ currentPage: selected });
     }
 
     handleRowSelect(pageIdx) {
-        debugger
         if (pageIdx !== this.state.selectedRow || this.state.selectedRow === null) {
             this.setState({ selectedRow: pageIdx });
         } else {
@@ -203,9 +204,10 @@ export class SSTable extends Component {
             return headerItem.isSortable ? <SortHeaderCell
                 onSortChange={this.onSortChange.bind(this)}
                 sortDir={colSortDirs[headerItem.field]} key={idx}
-                columnKey={headerItem.field}>
+                columnKey={headerItem.field}
+                style={{ display: 'inline-block', width: 100 / columnDefs.length + '%' }}>
                 {headerItem.title}
-            </SortHeaderCell> : <th key={idx}>{headerItem.title}</th>;
+            </SortHeaderCell> : <div key={idx} style={{ display: 'inline-block', width: 100 / columnDefs.length + '%' }}>{headerItem.title}</div>;
         });
 
         let rows = this.getPaginatedItems(viewData, currentPage, perPage).map((row, i) => {
@@ -218,7 +220,7 @@ export class SSTable extends Component {
             return <tr onClick={this.handleRowSelect.bind(this, i)} key={i}>
                 <td colSpan={columnDefs.length}>
                     {cells}
-                    <div style={Object.assign({}, styles.rowContent, {display: selectedRow === i ? 'block' : 'none'})}>
+                    <div style={Object.assign({}, styles.rowContent, { display: selectedRow === i ? 'block' : 'none' })}>
                         <ExpandedRowTmpl content={row} />
                     </div>
                 </td>
@@ -227,32 +229,47 @@ export class SSTable extends Component {
 
         let filterOptions = filterDropdownOptions.map((option, i) => <option value={option.value} key={i}>{option.text}</option>);
 
-        return (<div>
-            <div style={styles.common.floatLeft} className="input-group">
+        let pageLowRange = parseInt(currentPage * perPage + 1, 10);
+        let pageHighRange = parseInt(currentPage * perPage + perPage, 10);
+debugger
+        return (<div className="wrapper-table">
+            <div className="input-group">
                 <input type="text" className="form-control" onChange={this.onFilterValueChange.bind(this)} />
                 <span className="input-group-addon" style={styles.glueSpan}></span>
                 <select className="form-control" onChange={this.onFilterTypeChange.bind(this)}>
                     {filterOptions}
                 </select>
             </div>
-            <div style={styles.common.clearfix}>
+            <div className="contaner-table">
                 <table className="table table-hover">
-                    <thead><tr>{headerCells}</tr></thead>
+                    <thead className="table-header"><tr><td colSpan={columnDefs.length}>{headerCells}</td></tr></thead>
                     <tbody>{rows}</tbody>
                 </table>
             </div>
-            <div style={styles.common.floatLeft}>
-                <ReactPaginate previousLabel={"previous"}
-                    nextLabel={"next"}
-                    breakLabel={<a href="">...</a>}
-                    breakClassName={"break-me"}
-                    pageNum={this.state.pageCount}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    clickCallback={this.handlePageClick.bind(this)}
-                    containerClassName={"pagination"}
-                    subContainerClassName={"pages pagination"}
-                    activeClassName={"active"} />
+            <div className="contaner-pagination">
+                <div className="pagination">
+                    <ReactPaginate previousLabel={"previous"}
+                        nextLabel={"next"}
+                        breakLabel={<a href="">...</a>}
+                        breakClassName={"break-me"}
+                        pageNum={this.state.pageCount}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        clickCallback={this.handlePageClick.bind(this)}
+                        containerClassName={"pagination"}
+                        subContainerClassName={"pages pagination"}
+                        activeClassName={"active"} />
+                </div>
+                <div className="contaner-pagination-info">
+                    <select className="form-control" onChange={this.onPagePerChange.bind(this)}>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+                    <div className="info">{pageLowRange} - {pageHighRange > viewData.length ? viewData.length : pageHighRange} of {viewData.length} results</div>
+                </div>
+                <div className="clearfix"></div>
             </div>
         </div>);
     }
