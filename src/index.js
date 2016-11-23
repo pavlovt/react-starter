@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './assets/fonts/ek-mukta.regular.ttf';
 import Tenants from './pages/Tenants';
 import Overview from './pages/Overview';
+import Login from './pages/login/Login';
 import './index.scss';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
@@ -27,6 +28,7 @@ ReactDOM.render(
       <Route path="validation1" component={Validation1}/>
       <Route path="tenants" component={Tenants}/>
       <Route path="overview" component={Overview}/>
+      <Route path="login" component={Login}/>
     </Route>
   </Router>
 ),
