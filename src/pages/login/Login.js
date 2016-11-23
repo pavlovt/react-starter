@@ -37,11 +37,11 @@ class Form extends Component {
         return (
             <form className="row">
                 <div className="col-xs-12">
-                <div className="col-xs-4 jumbotron">
+                <div className="col-xs-3 jumbotron">
                     <Input type="text" name="username" label="Username" {...fields} />
                     <Input type="password" name="password" label="Password" {...fields} />
 
-                    <button className="button" onClick={(e) => {
+                    <button className="btn btn-default col-xs-12" onClick={(e) => {
                         e.preventDefault()
                         this.props.$submit(onValid, onInvalid)
                         }}>LOGIN</button>
