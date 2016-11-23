@@ -8,6 +8,7 @@ import ChartTest from './pages/ChartTest';
 import Validation from './pages/Validation';
 import Validation1 from './pages/Validation1';
 import 'bootstrap/dist/css/bootstrap.css';
+import './assets/fonts/ek-mukta.regular.ttf';
 import Tenants from './pages/Tenants';
 import Overview from './pages/Overview';
 import './index.scss';

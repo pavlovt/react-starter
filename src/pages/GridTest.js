@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { SSTable } from './../components/table/SSTable';
+import { AttackStatusBadge } from './../components/table/CellTypes';
 
 const rows = [{
     username: "asenpetrov",
@@ -106,7 +107,7 @@ export default class GridTest extends Component {
             title: "First Name",
             field: "firstName",
             isSortable: true,
-            template: RowSampleTemplate
+            template: AttackStatusBadge
         }, {
             title: "Last Name",
             field: "lastName"

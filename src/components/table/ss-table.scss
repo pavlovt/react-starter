@@ -1,8 +1,14 @@
 .wrapper-table {
     $battleshipGray: #6f7983;
+    $bluishColor: #1eabd9;
     .ml5 {
         margin-left: 5px;
     }
+    font-family: EkMukta;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
     padding: 15px;
     .contaner-table {
         min-height: 240px;
@@ -16,8 +22,7 @@
                     cursor: pointer;
                 }
             }
-
-            tbody > tr:first-child td {
+            tbody>tr:first-child td {
                 border-top: 2px solid $battleshipGray;
             }
         }
@@ -31,12 +36,11 @@
         .pagination {
             margin: 0;
             margin-left: 10px;
-
             ul.pagination li {
                 &.active {
                     a {
                         background: #fff;
-                        color: #1eabd9;
+                        color: $bluishColor;
                     }
                 }
                 a {
@@ -56,6 +60,7 @@
                 width: 60px;
                 height: $height;
                 float: left;
+                color: $bluishColor;
             }
             div {
                 float: left;
@@ -63,5 +68,8 @@
                 padding-left: 20px;
             }
         }
+    }
+    .text-bolded {
+        font-weight: bold;
     }
 }

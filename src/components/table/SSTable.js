@@ -241,7 +241,6 @@ export class SSTable extends Component {
         });
 
         let filterOptions = filterDropdownOptions.map((option, i) => <option value={option.value} key={i}>{option.text}</option>);
-
         let pageLowRange = parseInt(currentPage * perPage + 1, 10);
         let pageHighRange = parseInt(currentPage * perPage + perPage, 10);
 
