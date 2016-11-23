@@ -1,7 +1,8 @@
 "use strict";
 
 import React, { Component } from 'react';
-import { SSDataGrid } from './../components/SSDataGrid';
+import { SSTable } from './../components/table/SSTable';
+import { AttackStatusBadge } from './../components/table/CellTypes';
 
 const rows = [{
     username: "asenpetrov",
@@ -82,6 +83,12 @@ const rows = [{
     timeZone: "Athens"
 }];
 
+class RowSampleTemplate extends Component {
+    render() {
+        return <div style={{background: 'purple'}}>{this.props.content}</div>
+    }
+}
+
 export default class GridTest extends Component {
     constructor() {
         super();
@@ -92,11 +99,15 @@ export default class GridTest extends Component {
         columns: [{
             title: "Username/Email",
             field: "username",
-            isSortable: true
+            isSortable: true,
+            render: function(data) {
+                return <div style={{background: 'red'}}>{data}</div>
+            }
         }, {
             title: "First Name",
             field: "firstName",
-            isSortable: true
+            isSortable: true,
+            template: AttackStatusBadge
         }, {
             title: "Last Name",
             field: "lastName"
@@ -110,12 +121,12 @@ export default class GridTest extends Component {
             title: "Time Zone",
             field: "timeZone",
         }],
-        sorting: ['username', 'firstName']
+        sorting: ['username', 'firstName'],
     };
 
     render() {
         return (<div>
-            <SSDataGrid config={this.gridConfig} />
+            <SSTable config={this.gridConfig}></SSTable>
         </div>);
     }
 }

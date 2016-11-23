@@ -1,0 +1,75 @@
+.wrapper-table {
+    $battleshipGray: #6f7983;
+    $bluishColor: #1eabd9;
+    .ml5 {
+        margin-left: 5px;
+    }
+    font-family: EkMukta;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    padding: 15px;
+    .contaner-table {
+        min-height: 240px;
+        .table {
+            .table-header>tr div {
+                color: $battleshipGray;
+                padding: 10px 0px;
+                a {
+                    text-decoration: none;
+                    color: inherit;
+                    cursor: pointer;
+                }
+            }
+            tbody>tr:first-child td {
+                border-top: 2px solid $battleshipGray;
+            }
+        }
+    }
+    .contaner-pagination {
+        .pagination,
+        .contaner-pagination-info {
+            float: left;
+            vertical-align: top;
+        }
+        .pagination {
+            margin: 0;
+            margin-left: 10px;
+            ul.pagination li {
+                &.active {
+                    a {
+                        background: #fff;
+                        color: $bluishColor;
+                    }
+                }
+                a {
+                    border: none;
+                    color: $battleshipGray;
+                    padding-left: 6px;
+                    padding-right: 6px;
+                }
+            }
+        }
+        .contaner-pagination-info {
+            $height: 34px;
+            width: 240px;
+            float: right;
+            select {
+                display: block;
+                width: 60px;
+                height: $height;
+                float: left;
+                color: $bluishColor;
+            }
+            div {
+                float: left;
+                line-height: $height;
+                padding-left: 20px;
+            }
+        }
+    }
+    .text-bolded {
+        font-weight: bold;
+    }
+}
