@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {Card, List, Grid} from 'semantic-ui-react'
-import Chart from './Chart';
+import Chart from '../components/Chart';
 
 
 class TopAttackedTenants extends Component {
@@ -22,22 +21,31 @@ class TopAttackedTenants extends Component {
           data: this.props.topAttackedList.map((element) => element.count),
         }]
       },
-
+      options: {
+          scales: {
+              xAxes: [{
+                  stacked: true
+              }],
+              yAxes: [{
+                  stacked: true
+              }]
+          }
+      }
 
     };
 
     return (
-      <Grid columns="{3}" padded="vertically">
-        <Grid.Column>
-          {tenants}
-        </Grid.Column>
-        <Grid.Column>
-          {numbers}
-        </Grid.Column>
-        <Grid.Column width={2}>
-          <Chart id="topAttackedTenants" data={chartData}/>
-        </Grid.Column>
-      </Grid>
+      <div className="row">
+          <div className="col-md-4">
+            {tenants}
+          </div>
+          <div className="col-md-2">
+            {numbers}
+          </div>
+          <div className="col-md-6">
+            <Chart id="topAttackedTenants" data={chartData}/>
+          </div>
+      </div>
     )
   }
 }
