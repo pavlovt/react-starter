@@ -5,6 +5,8 @@ import _ from 'lodash';
 
 import './ss-table.scss';
 
+import Paginator from './Paginator'
+
 const SortTypes = {
     ASC: 'ASC',
     DESC: 'DESC',
@@ -48,7 +50,9 @@ class SortHeaderCell extends React.Component {
         return (
             <div style={style}>
                 <a onClick={this._onSortChange}>
-                    {children} {sortDir ? (sortDir === SortTypes.DESC ? '↓' : '↑') : ''}
+                    {children} 
+                    {sortDir ? (sortDir === SortTypes.DESC ? <span className="glyphicon glyphicon-sort-by-alphabet ml5"></span> :
+                        <span className="glyphicon glyphicon-sort-by-alphabet-alt ml5"></span>) : ''}
                 </a>
             </div>
         );
@@ -212,8 +216,19 @@ export class SSTable extends Component {
 
         let rows = this.getPaginatedItems(viewData, currentPage, perPage).map((row, i) => {
             let cells = columnDefs.map((fieldDef, idx) => {
+                let cellContent = null;
+
+                if (fieldDef.render && typeof fieldDef.render === "function") {
+                    cellContent = fieldDef.render(row[fieldDef.field]);
+                } else if (fieldDef.template) {
+                    let CellTemplate = fieldDef.template;
+                    cellContent = <CellTemplate content={row[fieldDef.field]} />
+                } else {
+                    cellContent = <span>{row[fieldDef.field]}</span>;
+                }
+
                 return <div style={{ display: 'inline-block', width: 100 / columnDefs.length + '%' }} key={idx}>
-                    {row[fieldDef.field]}
+                    {cellContent}
                 </div>;
             });
 
@@ -221,7 +236,7 @@ export class SSTable extends Component {
                 <td colSpan={columnDefs.length}>
                     {cells}
                     <div style={Object.assign({}, styles.rowContent, { display: selectedRow === i ? 'block' : 'none' })}>
-                        <ExpandedRowTmpl content={row} />
+                        {ExpandedRowTmpl ? <ExpandedRowTmpl content={row} /> : <div />}
                     </div>
                 </td>
             </tr>;
@@ -231,7 +246,7 @@ export class SSTable extends Component {
 
         let pageLowRange = parseInt(currentPage * perPage + 1, 10);
         let pageHighRange = parseInt(currentPage * perPage + perPage, 10);
-debugger
+
         return (<div className="wrapper-table">
             <div className="input-group">
                 <input type="text" className="form-control" onChange={this.onFilterValueChange.bind(this)} />
@@ -259,6 +274,7 @@ debugger
                         containerClassName={"pagination"}
                         subContainerClassName={"pages pagination"}
                         activeClassName={"active"} />
+                        <Paginator max={10} onChange={this.handlePageClick.bind(this)} />
                 </div>
                 <div className="contaner-pagination-info">
                     <select className="form-control" onChange={this.onPagePerChange.bind(this)}>
@@ -267,7 +283,7 @@ debugger
                         <option value="15">15</option>
                         <option value="20">20</option>
                     </select>
-                    <div className="info">{pageLowRange} - {pageHighRange > viewData.length ? viewData.length : pageHighRange} of {viewData.length} results</div>
+                    <div className="info">{pageLowRange}&nbsp;-&nbsp;{pageHighRange > viewData.length ? viewData.length : pageHighRange}&nbsp;of&nbsp;{viewData.length}&nbsp;results</div>
                 </div>
                 <div className="clearfix"></div>
             </div>

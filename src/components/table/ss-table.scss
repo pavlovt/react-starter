@@ -1,4 +1,7 @@
 .wrapper-table {
+    .ml5 {
+        margin-left: 5px;
+    }
     padding: 15px;
     .contaner-table {
         min-height: 240px;
@@ -9,6 +12,7 @@
                 a {
                     text-decoration: none;
                     color: inherit;
+                    cursor: pointer;
                 }
             }
         }

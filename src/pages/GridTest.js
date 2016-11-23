@@ -84,7 +84,7 @@ const rows = [{
 
 class RowSampleTemplate extends Component {
     render() {
-        return <div>zdraveite az sum templeita<br/><br/>{this.props.content.toString()}</div>
+        return <div style={{background: 'purple'}}>{this.props.content}</div>
     }
 }
 
@@ -99,13 +99,14 @@ export default class GridTest extends Component {
             title: "Username/Email",
             field: "username",
             isSortable: true,
-            template: function(rowData) {
-                return <div>{rowData.title}</div>
+            render: function(data) {
+                return <div style={{background: 'red'}}>{data}</div>
             }
         }, {
             title: "First Name",
             field: "firstName",
-            isSortable: true
+            isSortable: true,
+            template: RowSampleTemplate
         }, {
             title: "Last Name",
             field: "lastName"
@@ -120,7 +121,6 @@ export default class GridTest extends Component {
             field: "timeZone",
         }],
         sorting: ['username', 'firstName'],
-        ExpandedRowTmpl: RowSampleTemplate
     };
 
     render() {
