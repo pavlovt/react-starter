@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "react-app",
+    "react-app/jest",
+    "xo",
+    "xo-react",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
+    "prettier"
+  ],
+  "plugins": ["@tanstack/query"],
+  "rules": {
+    "semi": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/no-unknown-property": "off"
+  }
+}
