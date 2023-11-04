@@ -1,16 +1,40 @@
 {
-  "extends": [
-    "react-app",
-    "react-app/jest",
-    "xo",
-    "xo-react",
-    "plugin:@tanstack/eslint-plugin-query/recommended",
-    "prettier"
-  ],
-  "plugins": ["@tanstack/query"],
+  "root": true,
+  "extends": ["plugin:@typescript-eslint/recommended", "xo", "xo-react"],
+  "plugins": ["@typescript-eslint", "prettier"],
+  "ignorePatterns": ["**/*.d.ts", "**/*.js", "src/temp/*.ts"],
+  "globals": {
+    "React": true,
+    "JSX": true
+  },
   "rules": {
-    "semi": "off",
+    "jsx-a11y/alt-text": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "off",
+    "jsx-quotes": ["error", "prefer-double"],
+    "react/no-unknown-property": "off",
+    "capitalized-comments": "off",
+    "object-curly-spacing": "off",
+    "indent": "off",
+    "react/jsx-indent": "off",
+    "react/jsx-indent-props": "off",
     "react/react-in-jsx-scope": "off",
-    "react/no-unknown-property": "off"
+    "react/jsx-tag-spacing": "off",
+    "semi": "off",
+    "react/prefer-read-only-props": "off",
+    "react/function-component-definition": "off",
+    "react/jsx-child-element-spacing": "off",
+    "react/boolean-prop-naming": "off",
+    "react/button-has-type": "off",
+    "react/jsx-closing-bracket-location": "off",
+    "react/jsx-no-useless-fragment": "off",
+    "operator-linebreak": "off",
+    "comma-dangle": "off",
+    "no-trailing-spaces": ["error", { "ignoreComments": true }],
+    "arrow-parens": ["error", "as-needed"],
+    "curly": ["error", "multi-line"],
+    "arrow-body-style": ["error", "as-needed"],
+    "eol-last": "off",
+    "no-undef": "off"
   }
 }

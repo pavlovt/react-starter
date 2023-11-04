@@ -1,52 +1,50 @@
-# Optimal configuration for Create React App
+# React Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Installation
 
-## Available Scripts
+```
+git clone https://github.com/pavlovt/react-starter.git
+cd react-starter
+yarn
+yarn start
+```
 
-In the project directory, you can run:
+## Directory structure
 
-### `npm start`
+- **docs**: contains all the documentation for the project
+- **src\assets**: images, fonts, svg files
+- **src\bits**: all reusable components
+- **src\core**: core, api, conf and other global services
+- **src\store**: all the store (rematch.js) modules
+- **tests**: here are the automated tests
+- **tests-examples**: example automated tests
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Important files
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **.env**: configuration variables for the site. the most important is SITECORE_API_KEY without which the connection with sitecore will not work
+- **.eslintrc**: eslint configuration. if any eslint rule is not necessary it can be added to the exceptions in this file
+- **package.json**: all the used packages are here. the most important are the scripts that can be run:
+  - **build**: building the site for production
+  - **lint**: run it before making a commit to be sure that there are no eslint errors (without fixing them the commit will be canceled)
+  - **start:connected**: run the dev server
+  - **size**: check the size of the whole project when build
+  - **test**: run the automation testing locally with the Playwright ui tool
+  - **test-console**: run the automation testing without the ui tool - can be used on Asure
+- **tailwind.config.js**: tailwind css configuration file. here we can add new colors that can be reused in the site
+- **tsconfig.json**: typescript configuration file. check the "paths" property to see the directories that are directly accessible in the imports
 
-### `npm test`
+## Documentation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- [Coding standards](./docs/codingStandards.md)
+- [Code Review standards](./docs/codeReview.md)
+- [Pull Request standards](./docs/prStandards.md)
 
 ## Learn More
 
 - [Create React App documentation](https://create-react-app.dev/)
-
 - [.env possible configuration parametars for react-scripts](https://create-react-app.dev/docs/advanced-configuration/)
 
 ## Solutions
 
 - [Should I commit the yarn.lock file and what is it for?](https://stackoverflow.com/questions/39990017/should-i-commit-the-yarn-lock-file-and-what-is-it-for)
-
 - [Do I need to import react in every file?](https://stackoverflow.com/questions/71725865/do-i-need-to-import-react-in-every-file)

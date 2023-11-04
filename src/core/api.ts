@@ -2,12 +2,12 @@ import { ofetch } from 'ofetch'
 import conf from './conf'
 
 class Api {
-  send(url: string, method: string, data: any = {}) {
+  send(url: string, method: string, data: any = null) {
     const headers = {
       Accept: 'application/json',
       'Cache-Control': 'no-cache',
     }
-    return ofetch(url, { headers, retry: 3, method, body: data })
+    return ofetch(this.url(url), { headers, retry: 3, method, body: data })
   }
 
   url(addUrl: string) {
