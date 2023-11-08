@@ -1,5 +1,5 @@
-import { Button, Input } from 'components/form'
 import { Form } from 'houseform'
+import { Button, Input } from '../form'
 
 const FormExample = () => (
   <Form onSubmit={values => console.log(values)}>
